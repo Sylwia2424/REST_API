@@ -2,9 +2,13 @@
   "name": "REST_API",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "Sylwia <sylwia_24_24@wp.pl>",
+  "author": "Sylwia",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
   "dependencies": {
-    "express": "4.17.1"
+    "express": "4.17.1",
+    "uuid": "^7.0.2"
   }
 }
