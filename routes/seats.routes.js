@@ -18,11 +18,12 @@ router.route('/seats/:id').get((req, res) => {
 router.route('/seats').post((req, res) => {
   const { day, seat, client, email } = req.body;
   console.log(req.body)
+  const io = req.io; 
 
   let check = true;
   for (let post of db.seats) {
     if (post.day == day && post.seat == seat) {
-      res.json({ message: 'This seat is already taken' });
+      res.status(400).json({ message: 'The slot is already taken.' });
       check = false;
     }
   }
@@ -36,6 +37,7 @@ router.route('/seats').post((req, res) => {
     };
     db.seats.push(newPost);
     res.json({ message: 'OK' });
+    io.emit('seatsUpdated', db.seats);
   }
 });
 
@@ -43,7 +45,7 @@ router.route('/seats/:id').put((req, res) => {
   const { day, seat, client, email } = req.body;
   for (let post of db.seats) {
     if (post.day == day && post.seat == seat) {
-      res.json({ message: 'This seat is already taken' });
+      res.status(400).json({ message: 'The slot is already taken.' });
     } else {
       post.day = day;
       post.seat = seat;

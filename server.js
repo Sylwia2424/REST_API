@@ -1,9 +1,25 @@
 const express = require('express');
-
+const path = require('path');
+const cors = require('cors');
+const socket = require('socket.io');
 const app = express();
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+app.use((req, res, next) => {
+  req.io = io;	  
+  next();	  
+}); 
+
+app.use(	
+  cors({	  
+    origin: "http://localhost:3000", 
+    methods: "GET, POST, PUT, DELETE", 
+  })	  
+);
+
+app.use(express.static(path.join(__dirname, '/client/build')));
 
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const seatsRoutes = require('./routes/seats.routes');
@@ -13,12 +29,22 @@ app.use('/api', testimonialsRoutes);
 app.use('/api', seatsRoutes);
 app.use('/api', concertsRoutes);
 
-
-
-app.use((req, res) => {
-  res.send({ message: 'Not found' });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
-app.listen(9000, () => {
+app.use((req, res) => {
+  res.status(404).send({ message: '404 not found' });
+});
+
+const server = app.listen(process.env.PORT || 9000, () => {
   console.log('Server is running on port: 9000');
+});
+
+const io = socket(server); 
+io.on('connection', (socket) => {	
+  console.log('client with ID:', socket.id, ' has just logged');
+	socket.on('disconnect', () => {
+    console.log('client ID: ', socket.id, ' has just left');
+  });	 
 });
