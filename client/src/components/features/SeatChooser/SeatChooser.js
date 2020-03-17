@@ -1,18 +1,15 @@
 import React from 'react';
 import io from 'socket.io-client';
 import { Button, Progress, Alert } from 'reactstrap';
-
 import './SeatChooser.scss';
-import { loadSeatsRequest } from '../../../redux/seatsRedux';
 
 class SeatChooser extends React.Component {
   
   componentDidMount() {
-    this.socket = io('http://localhost:9000');
+    this.socket = io(process.env.PORT || 'http://localhost:9000');
     const { loadSeats} = this.props;
-    this.socket.on('seatsUpdated', seats => {
-      this.props.loadSeatsData(seats);
-    });
+    this.socket.on('seatsUpdated', seats => 
+      this.props.loadSeatsData(seats));
     loadSeats();
   }
 
@@ -32,12 +29,19 @@ class SeatChooser extends React.Component {
       {seatId}
     </Button>
     )
-    else if(isTaken(seatId)) return <Button key={seatId} className="seats__seat" disabled color="secondary">{seatId}</Button>;
-    else 
-    return <Button key={seatId} color="primary" className="seats__seat" outline onClick={(e) => updateSeat(e, updateSeat(e, seatId))}>
+    else if(isTaken(seatId)) 
+    return (
+    <Button key={seatId} className="seats__seat" disabled color="secondary">
       {seatId}
-    </Button>;
-  }
+      </Button>
+    )
+    else 
+    return (
+    <Button key={seatId} color="primary" className="seats__seat" outline onClick={(e) => updateSeat(e, updateSeat(e, seatId))}>
+      {seatId}
+    </Button>
+    );
+  };
   countSeats = number => {
     const { chosenDay, seats } = this.props;
     const dayArray = [];
@@ -63,8 +67,6 @@ class SeatChooser extends React.Component {
           }
         }
         break;
-      default:
-        return dayArray;
     }
 
     return number - dayArray.length;

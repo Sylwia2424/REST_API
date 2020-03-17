@@ -8,7 +8,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addSeat: (seat) => dispatch(addSeatRequest(seat)),
+  addSeat: seat => dispatch(addSeatRequest(seat)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderTicketForm);
