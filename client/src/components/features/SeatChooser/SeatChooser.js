@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import React from 'react';
 import io from 'socket.io-client';
 import { Button, Progress, Alert } from 'reactstrap';
