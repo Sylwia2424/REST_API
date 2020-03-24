@@ -4,14 +4,20 @@ import io from 'socket.io-client';
 import { Button, Progress, Alert } from 'reactstrap';
 import './SeatChooser.scss';
 
+
 class SeatChooser extends React.Component {
   
   componentDidMount() {
-    this.socket = io(process.env.PORT || 'http://localhost:9000');
-    const { loadSeats} = this.props;
-    this.socket.on('seatsUpdated', seats => 
-      this.props.loadSeatsData(seats));
+    const { loadSeats } = this.props;
     loadSeats();
+    this.socket = io.conectet(
+      process.env.PORT || 'http://localhost:9000'
+    );
+    //const { loadSeats} = this.props;
+    this.socket.on('seatsUpdated', () => {
+      //this.props.loadSeatsData(seats));
+    loadSeats();
+    })
   }
 
   isTaken = (seatId) => {

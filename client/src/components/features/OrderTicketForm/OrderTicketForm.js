@@ -44,7 +44,7 @@ class OrderTicketForm extends React.Component {
     e.preventDefault();
 
     if(order.client && order.email && order.day && order.seat) {
-      await addSeat(order);
+      addSeat(order);
       this.setState({ 
         order: {
           client: '',
