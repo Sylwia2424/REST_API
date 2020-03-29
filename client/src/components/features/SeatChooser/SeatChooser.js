@@ -10,7 +10,7 @@ class SeatChooser extends React.Component {
   componentDidMount() {
     const { loadSeats } = this.props;
     loadSeats();
-    this.socket = io.conectet(
+    this.socket = io.connect(
       process.env.PORT || 'http://localhost:9000'
     );
     //const { loadSeats} = this.props;
@@ -29,8 +29,8 @@ class SeatChooser extends React.Component {
   prepareSeat = (seatId) => {
     const { chosenSeat, updateSeat } = this.props;
     const { isTaken } = this;
-
     if(seatId === chosenSeat) 
+
     return (
     <Button key={seatId} className="seats__seat" color="primary">
       {seatId}
@@ -44,11 +44,12 @@ class SeatChooser extends React.Component {
     )
     else 
     return (
-    <Button key={seatId} color="primary" className="seats__seat" outline onClick={(e) => updateSeat(e, updateSeat(e, seatId))}>
+    <Button key={seatId} color="primary" className="seats__seat" outline onClick={(e) => updateSeat(e, seatId)}>
       {seatId}
     </Button>
     );
   };
+
   countSeats = number => {
     const { chosenDay, seats } = this.props;
     const dayArray = [];
@@ -99,6 +100,6 @@ class SeatChooser extends React.Component {
       </div>
     )
   };
-}
+};
 
 export default SeatChooser;

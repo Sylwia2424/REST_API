@@ -18,6 +18,7 @@ class OrderTicketForm extends React.Component {
 
   updateSeat = (e, seatId) => {
     const { order } = this.state;
+    //console.log(seatId)
 
     e.preventDefault();
     this.setState({ order: { ...order, seat: seatId }});
@@ -108,6 +109,6 @@ class OrderTicketForm extends React.Component {
       </Form>
     )
   };
-}
+};
 
 export default OrderTicketForm;
