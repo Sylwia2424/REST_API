@@ -1,4 +1,17 @@
 const express = require('express');
+const router = express.Router();
+
+const TestimonialController = require('../controllers/testimonial.controller');
+
+router.get('/testimonials', TestimonialController.getAll);
+router.get('/testimonials/random', TestimonialController.getRandom);
+router.get('/testimonials/:id', TestimonialController.getOne);
+router.post('/testimonials', TestimonialController.postOne);
+router.put('/testimonials/:id', TestimonialController.putOne);
+router.delete('/testimonials/:id', TestimonialController.deleteOne);
+
+module.exports = router;
+/*const express = require('express');
 const db = require('../db.js');
 const router = express.Router();
 
@@ -44,4 +57,4 @@ router.route('/testimonials/:id').delete((req, res) => {
   res.send({ message: 'OK' }); 
 });
 
-module.exports = router;
+module.exports = router;*/
