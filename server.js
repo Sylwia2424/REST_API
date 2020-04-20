@@ -14,12 +14,12 @@ app.use((req, res, next) => {
   next();	  
 }); 
 
-app.use(	
+/*app.use(	
   cors({	  
     origin: "http://localhost:9000", 
     methods: "GET, POST, PUT, DELETE", 
   })	  
-);
+);*/
 
 app.use(express.static(path.join(__dirname, '/client/build')));
 
