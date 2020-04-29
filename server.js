@@ -14,12 +14,6 @@ app.use((req, res, next) => {
   next();	  
 }); 
 
-/*app.use(	
-  cors({	  
-    origin: "http://localhost:9000", 
-    methods: "GET, POST, PUT, DELETE", 
-  })	  
-);*/
 
 app.use(express.static(path.join(__dirname, '/client/build')));
 
@@ -39,7 +33,8 @@ app.use((req, res) => {
   res.status(404).send({ message: '404 not found' });
 });
 
-mongoose.connect('mongodb+srv://sylwia:<password>@cluster0-6thq1.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
+//mongoose.connect('mongodb+srv://sylwia:<password>@cluster0-6thq1.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/NewWaveDB', { useNewUrlParser: true });
 const db = mongoose.connection;
 
 db.once('open', () => {
@@ -57,4 +52,8 @@ io.on('connection', (socket) => {
 	socket.on('disconnect', () => {
     console.log('client ID: ', socket.id, ' has just left');
   });	 
+});
+
+const server = app.listen('7000', () => {
+  console.log('Server is running on port: 7000');
 });

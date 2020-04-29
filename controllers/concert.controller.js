@@ -35,6 +35,17 @@ exports.getOne = async (req, res) => {
 
 };
 
+exports.getPerformer = async (req, res) => {
+  try {
+    const con = await Concert.find({performer: 'John Doe'});
+    await con.save();
+    res.json( await Concert.find());
+  }
+  catch(err) {
+    res.status(500).json({ message: err });
+  }
+};
+
 exports.postOne = async (req, res) => {
 
   try {
