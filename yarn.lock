@@ -2056,7 +2056,7 @@ heroku-exec-util@0.7.5:
     temp "0.8.3"
     uuid "3.2.1"
 
-heroku@^7.39.1:
+heroku@^7.39.5:
   version "7.39.5"
   resolved "https://registry.yarnpkg.com/heroku/-/heroku-7.39.5.tgz#082c716111114faf11bbf1afec7cf2820e9765a0"
   integrity sha512-t0HTpt0diDrVwZO+4hlxJLbBCIRI4yQKzEPDADesoDytdo1s9p+I43vySRxje50R1mb6golY/vXoOgc5h6brew==

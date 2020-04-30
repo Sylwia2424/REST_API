@@ -54,6 +54,7 @@ io.on('connection', (socket) => {
   });	 
 });
 
-const server = app.listen('7000', () => {
-  console.log('Server is running on port: 7000');
+const server2 = app.listen('6000', () => {
+  console.log('Server is running on port: 6000');
 });
+module.exports = server2;
