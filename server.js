@@ -3,6 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const socket = require('socket.io');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 
 const app = express();
 
@@ -13,7 +14,9 @@ app.use((req, res, next) => {
   req.io = io;	  
   next();	  
 }); 
-
+app.use(cors({
+  origin: 'http://localhost:8000'
+}));
 
 app.use(express.static(path.join(__dirname, '/client/build')));
 
@@ -33,6 +36,7 @@ app.use((req, res) => {
   res.status(404).send({ message: '404 not found' });
 });
 
+app.use(helmet());
 //mongoose.connect('mongodb+srv://sylwia:<password>@cluster0-6thq1.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
 mongoose.connect('mongodb://localhost:27017/NewWaveDB', { useNewUrlParser: true });
 const db = mongoose.connection;

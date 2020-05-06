@@ -1,4 +1,5 @@
 const Seat = require('../models/seats.model');
+const sanitize = require('mongo-sanitize');
 //const uuidv1 = require('uuid/v1');
 
 exports.getAll = async (req, res) => {
@@ -25,7 +26,7 @@ exports.getRandom = async (req, res) => {
 exports.getOne = async (req, res) => {
 
   try {
-    const sea = await Seat.findById(req.params.id);
+    const sea = await Seat.findById( req.params.id);
     if(!sea) res.status(404).json({ message: 'Not found' });
     else res.json(sea);
   }
@@ -40,18 +41,25 @@ exports.postOne = async (req, res) => {
   try {
     const { day, seat, client, email  } = req.body;
     //const io = req.io; 
+    const clean = sanitize(client);
 
     const newSeat = new Seat({ 
       day: day,
       seat: seat,
-      client: client,
+      client: clean,
       email: email,
-        //id:  uuidv1()
     });
 
+    /*if(!day || !seat || !client || !email) throw new Error('Invalid data');
+    else if(!userLogged());
+    else {
+      const newSeat = new Seat({ day, seat, client, email });
+      await newSeat.save();
+      res.status(201).json({ message: 'OK' });
+    }*/
     await newSeat.save();
     res.json({ message: 'OK' });
-    //io.emit('seatsUpdated', db.seats);
+    req.io.emit('seatsUpdated', db.seats);
 
 
   } catch(err) {
