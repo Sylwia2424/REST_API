@@ -1,5 +1,4 @@
 const Concert = require('../models/concerts.model');
-const sanitize = require('mongo-sanitize');
 
 exports.getAll = async (req, res) => {
   try {
@@ -26,9 +25,9 @@ exports.getRandom = async (req, res) => {
 exports.getOne = async (req, res) => {
 
   try {
-    const con = await Concert.findById(req.params.id);
-    if(!con) res.status(404).json({ message: 'Not found' });
-    else res.json(con);
+    const concert = await Concert.findById(req.params.id);
+    if(!concert) res.status(404).json({ message: 'Not found' });
+    else res.json(concert);
   }
   catch(err) {
     res.status(500).json({ message: err });
@@ -38,8 +37,8 @@ exports.getOne = async (req, res) => {
 
 exports.getPerformer = async (req, res) => {
   try {
-    const con = await Concert.find(req.params.performer);
-    await con.save();
+    const concert = await Concert.find(req.params.performer);
+    await concert.save();
     res.json( await Concert.find());
   }
   catch(err) {
@@ -49,8 +48,8 @@ exports.getPerformer = async (req, res) => {
 
 exports.getGenre = async (req, res) => {
   try {
-    const con = await Concert.find(req.params.genre);
-    await con.save();
+    const concert = await Concert.find(req.params.genre);
+    await concert.save();
     res.json( await Concert.find());
   }
   catch(err) {
@@ -60,8 +59,8 @@ exports.getGenre = async (req, res) => {
 
 exports.getPrice = async (req, res) => {
   try {
-    const con = await Concert.find(req.params.priceMin || req.params.priceMax);
-    await con.save();
+    const concert = await Concert.find(req.params.priceMin || req.params.priceMax);
+    await concert.save();
     res.json( await Concert.find());
   }
   catch(err) {
@@ -71,8 +70,8 @@ exports.getPrice = async (req, res) => {
 
 exports.getPriceDay = async (req, res) => {
   try {
-    const con = await Concert.find(req.params.day);
-    await con.save();
+    const concert = await Concert.find(req.params.day);
+    await concert.save();
     res.json( await Concert.find());
   }
   catch(err) {
@@ -87,15 +86,17 @@ exports.postOne = async (req, res) => {
 
     const { performer, genre, price, day, image  } = req.body;
     const newConcert = new Concert({ performer: performer, 
-    genre: genre, 
-    price: price, 
-    day: day, 
-    image:image  
+      genre: genre, 
+      price: price, 
+      day: day, 
+      image:image  
     });
+
     await newConcert.save();
     res.json({ message: 'OK' });
 
-  } catch(err) {
+  } 
+  catch(err) {
     res.status(500).json({ message: err });
   }
 
@@ -105,14 +106,14 @@ exports.putOne = async (req, res) => {
   const { performer, genre, price, day, image  } = req.body;
 
   try {
-    const con = await(Concert.findById(req.params.id));
-    if(con) {
-      con.performer = performer, 
-      con.genre = genre,
-      con.price = price, 
-      con.day = day, 
-      con.image = image
-      await con.save();
+    const concert = await(Concert.findById(req.params.id));
+    if(concert) {
+      concert.performer = performer, 
+      concert.genre = genre,
+      concert.price = price, 
+      concert.day = day, 
+      concert.image = image
+      await concert.save();
       res.json( await Concert.find());
     }
     else res.status(404).json({ message: 'Not found...' });
@@ -126,8 +127,8 @@ exports.putOne = async (req, res) => {
 exports.deleteOne = async (req, res) => {
 
   try {
-    const con = await(Concert.findById(req.params.id));
-    if(con) {
+    const concert = await(Concert.findById(req.params.id));
+    if(concert) {
       await Concert.deleteOne({ _id: req.params.id });
       res.json( await Concert.find());
     }

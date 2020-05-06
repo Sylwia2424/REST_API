@@ -15,8 +15,8 @@ exports.getRandom = async (req, res) => {
   try {
     const count = await Seat.countDocuments();
     const rand = Math.floor(Math.random() * count);
-    const sea = await Seat.findOne().skip(rand);
-    if(!sea) res.status(404).json({message: 'Not found' });
+    const seats = await Seat.findOne().skip(rand);
+    if(!seats) res.status(404).json({message: 'Not found' });
     else res.json(item);
   }
   catch(err) {
@@ -26,9 +26,9 @@ exports.getRandom = async (req, res) => {
 exports.getOne = async (req, res) => {
 
   try {
-    const sea = await Seat.findById( req.params.id);
-    if(!sea) res.status(404).json({ message: 'Not found' });
-    else res.json(sea);
+    const seats = await Seat.findById( req.params.id);
+    if(!seats) res.status(404).json({ message: 'Not found' });
+    else res.json(seats);
   }
   catch(err) {
     res.status(500).json({ message: err });
@@ -50,13 +50,6 @@ exports.postOne = async (req, res) => {
       email: email,
     });
 
-    /*if(!day || !seat || !client || !email) throw new Error('Invalid data');
-    else if(!userLogged());
-    else {
-      const newSeat = new Seat({ day, seat, client, email });
-      await newSeat.save();
-      res.status(201).json({ message: 'OK' });
-    }*/
     await newSeat.save();
     res.json({ message: 'OK' });
     req.io.emit('seatsUpdated', db.seats);
@@ -73,13 +66,13 @@ exports.putOne = async (req, res) => {
   try {
     const { day, seat, client, email  } = req.body;
 
-    const sea = await(Seat.findById(req.params.id));
-    if(sea) {
-      sea.day = day;
-      sea.seat = seat;
-      sea.client = client;
-      sea.email = email;
-      await sea.save();
+    const seats = await(Seat.findById(req.params.id));
+    if(seats) {
+      seats.day = day;
+      seats.seat = seat;
+      seats.client = client;
+      seats.email = email;
+      await seats.save();
       res.json( await Seat.find());
     }
     else res.status(404).json({ message: 'Not found...' });
@@ -93,8 +86,8 @@ exports.putOne = async (req, res) => {
 exports.deleteOne = async (req, res) => {
 
   try {
-    const sea = await(Seat.findById(req.params.id));
-    if(sea) {
+    const seats = await(Seat.findById(req.params.id));
+    if(seats) {
       await Seat.deleteOne({ _id: req.params.id });
       res.json( await Seat.find());
     }

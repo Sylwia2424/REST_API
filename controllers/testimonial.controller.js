@@ -41,16 +41,17 @@ exports.postOne = async (req, res) => {
 
     const { author, text } = req.body;
 
-      const newTestimonial = new Testimonial({ 
-        author: author,
-        text: text,
-      });
+    const newTestimonial = new Testimonial({ 
+      author: author,
+      text: text,
+    });
 
     await newTestimonial.save({id: (db[db.length -1].id +1), author, text});
     res.json({ message: 'OK' });
 
 
-  } catch(err) {
+  } 
+  catch(err) {
     res.status(500).json({ message: err });
   }
 
